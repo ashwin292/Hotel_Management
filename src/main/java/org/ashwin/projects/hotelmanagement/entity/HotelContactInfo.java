@@ -1,12 +1,10 @@
 package org.ashwin.projects.hotelmanagement.entity;
 
 import jakarta.persistence.Embeddable;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
 @Embeddable
+@Data
 public class HotelContactInfo {
     private String address;
     private String phone;

@@ -1,16 +1,17 @@
 package org.ashwin.projects.hotelmanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "hotel")
 public class Hotel {
 
@@ -23,11 +24,21 @@ public class Hotel {
 
     private String city;
 
-    @Column(columnDefinition = "TEXT")
-    private String[] photos;
+    @ElementCollection
+    @CollectionTable(name = "photos", joinColumns = @JoinColumn(name = "entity_id"))
+    @Column(name = "list_value")
+    private List<String> photos;
 
-    @Column(columnDefinition = "TEXT")
-    private String[] amenities;
+    @ElementCollection
+    @CollectionTable(name = "amenities", joinColumns = @JoinColumn(name = "entity_id"))
+    @Column(name = "list_value")
+    private List<String> amenities;
+
+//    @Column(columnDefinition = "TEXT[]")
+//    private String[] photos;
+
+//    @Column(columnDefinition = "TEXT[]")
+//    private String[] amenities;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -40,4 +51,7 @@ public class Hotel {
 
     @Column(nullable = false)
     private Boolean isActive;
+
+    @ManyToOne
+    private User owner;
 }
