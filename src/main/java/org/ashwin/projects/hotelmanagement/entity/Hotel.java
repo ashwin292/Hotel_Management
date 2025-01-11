@@ -25,12 +25,12 @@ public class Hotel {
     private String city;
 
     @ElementCollection
-    @CollectionTable(name = "photos", joinColumns = @JoinColumn(name = "entity_id"))
+    @CollectionTable(name = "hotel_photos", joinColumns = @JoinColumn(name = "entity_id"))
     @Column(name = "list_value")
     private List<String> photos;
 
     @ElementCollection
-    @CollectionTable(name = "amenities", joinColumns = @JoinColumn(name = "entity_id"))
+    @CollectionTable(name = "hotel_amenities", joinColumns = @JoinColumn(name = "entity_id"))
     @Column(name = "list_value")
     private List<String> amenities;
 
@@ -54,4 +54,7 @@ public class Hotel {
 
     @ManyToOne
     private User owner;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Room> rooms;
 }

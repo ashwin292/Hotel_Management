@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class HotelController {
+
     private final HotelService hotelService;
 
     @PostMapping
@@ -52,4 +53,10 @@ public class HotelController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{hotelId}")
+    public ResponseEntity<Void> activateHotelById(@PathVariable Long hotelId) {
+        log.info("attempting to activate hotel by id: {}", hotelId);
+        hotelService.activateHotelById(hotelId);
+        return ResponseEntity.noContent().build();
+    }
 }

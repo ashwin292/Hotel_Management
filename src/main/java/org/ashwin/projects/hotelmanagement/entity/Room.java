@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,11 +30,21 @@ public class Room {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal basePrice;
 
-    @Column(columnDefinition = "TEXT")
-    private String[] photos;
+    @ElementCollection
+    @CollectionTable(name = "room_photos", joinColumns = @JoinColumn(name = "entity_id"))
+    @Column(name = "list_value")
+    private List<String> photos;
 
-    @Column(columnDefinition = "TEXT")
-    private String[] amenities;
+    @ElementCollection
+    @CollectionTable(name = "room_amenities", joinColumns = @JoinColumn(name = "entity_id"))
+    @Column(name = "list_value")
+    private List<String> amenities;
+
+//    @Column(columnDefinition = "TEXT")
+//    private String[] photos;
+//
+//    @Column(columnDefinition = "TEXT")
+//    private String[] amenities;
 
     @Column(nullable = false)
     private Integer capacity;
