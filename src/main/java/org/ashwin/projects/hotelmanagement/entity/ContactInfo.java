@@ -5,7 +5,7 @@ import lombok.*;
 
 @Embeddable
 @Data
-public class HotelContactInfo {
+public class ContactInfo {
     private String address;
     private String phone;
     private String email;

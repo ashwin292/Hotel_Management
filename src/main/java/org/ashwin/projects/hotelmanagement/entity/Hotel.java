@@ -2,8 +2,7 @@ package org.ashwin.projects.hotelmanagement.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -26,12 +25,12 @@ public class Hotel {
 
     @ElementCollection
     @CollectionTable(name = "hotel_photos", joinColumns = @JoinColumn(name = "entity_id"))
-    @Column(name = "list_value")
+    @Column(name = "photo_url")
     private List<String> photos;
 
     @ElementCollection
     @CollectionTable(name = "hotel_amenities", joinColumns = @JoinColumn(name = "entity_id"))
-    @Column(name = "list_value")
+    @Column(name = "amenity")
     private List<String> amenities;
 
 //    @Column(columnDefinition = "TEXT[]")
@@ -47,7 +46,7 @@ public class Hotel {
     private LocalDateTime updatedAt;
 
     @Embedded
-    private HotelContactInfo contactInfo;
+    private ContactInfo contactInfo;
 
     @Column(nullable = false)
     private Boolean isActive;
@@ -55,6 +54,7 @@ public class Hotel {
     @ManyToOne
     private User owner;
 
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Room> rooms;
 }

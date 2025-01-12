@@ -1,9 +1,7 @@
 package org.ashwin.projects.hotelmanagement.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.ashwin.projects.hotelmanagement.entity.HotelContactInfo;
+import org.ashwin.projects.hotelmanagement.entity.ContactInfo;
 
 @Data
 public class HotelDto {
@@ -12,6 +10,6 @@ public class HotelDto {
     private String city;
     private String[] photos;
     private String[] amenities;
-    private HotelContactInfo contactInfo;
+    private ContactInfo contactInfo;
     private boolean isActive;
 }

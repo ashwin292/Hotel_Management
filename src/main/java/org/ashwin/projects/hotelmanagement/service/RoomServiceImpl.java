@@ -7,9 +7,11 @@ import org.ashwin.projects.hotelmanagement.entity.Hotel;
 import org.ashwin.projects.hotelmanagement.entity.Room;
 import org.ashwin.projects.hotelmanagement.exception.ResourceNotFoundException;
 import org.ashwin.projects.hotelmanagement.repository.HotelRepository;
+import org.ashwin.projects.hotelmanagement.repository.InventoryRepository;
 import org.ashwin.projects.hotelmanagement.repository.RoomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,18 +24,24 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
     private final HotelRepository hotelRepository;
+    private final InventoryService inventoryService;
 
 
     @Override
+    @Transactional
     public RoomDto createRoom(Long hotelId, RoomDto roomDto) {
         log.info("Creating room: {}", roomDto);
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new ResourceNotFoundException("Hotel not found"));
         Room room = modelMapper.map(roomDto, Room.class);
         room.setHotel(hotel);
+        room = roomRepository.save(room);
+        log.info("Room created: {}", room);
 
-        //TODO: create inventory when room is created and if hotel is active.
-
-        return modelMapper.map(roomRepository.save(room), RoomDto.class);
+        if(hotel.getIsActive())
+        {
+            inventoryService.initializeRoomForAYear(room);
+        }
+        return modelMapper.map(room, RoomDto.class);
     }
 
     @Override
@@ -47,12 +55,13 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public void deleteRoomById(Long id) {
         log.info("Deleting room: {}", id);
-        if(!roomRepository.existsById(id)) throw new ResourceNotFoundException("Room not found");
-        roomRepository.deleteById(id);
+        Room room = roomRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
 
-        //TODO: delete all future inventory for this room.
+        inventoryService.deleteAllInventories(room);
+        roomRepository.deleteById(id);
     }
 
     @Override

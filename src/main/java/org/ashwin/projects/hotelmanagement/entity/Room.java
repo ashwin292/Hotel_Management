@@ -1,8 +1,8 @@
 package org.ashwin.projects.hotelmanagement.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "room")
 public class Room {
 
@@ -22,6 +21,7 @@ public class Room {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id", nullable = false)
+    @ToString.Exclude
     private Hotel hotel;
 
     @Column(nullable = false)
@@ -31,14 +31,14 @@ public class Room {
     private BigDecimal basePrice;
 
     @ElementCollection
-    @CollectionTable(name = "room_photos", joinColumns = @JoinColumn(name = "entity_id"))
-    @Column(name = "list_value")
-    private List<String> photos;
+    @CollectionTable(name = "room_amenities", joinColumns = @JoinColumn(name = "room_id"))
+    @Column(name = "amenity")
+    private List<String> amenities;
 
     @ElementCollection
-    @CollectionTable(name = "room_amenities", joinColumns = @JoinColumn(name = "entity_id"))
-    @Column(name = "list_value")
-    private List<String> amenities;
+    @CollectionTable(name = "room_photos", joinColumns = @JoinColumn(name = "room_id"))
+    @Column(name = "photo_url")
+    private List<String> photos;
 
 //    @Column(columnDefinition = "TEXT")
 //    private String[] photos;
