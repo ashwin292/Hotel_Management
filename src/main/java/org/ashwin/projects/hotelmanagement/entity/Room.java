@@ -1,5 +1,6 @@
 package org.ashwin.projects.hotelmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -22,6 +23,7 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id", nullable = false)
     @ToString.Exclude
+    @JsonBackReference
     private Hotel hotel;
 
     @Column(nullable = false)

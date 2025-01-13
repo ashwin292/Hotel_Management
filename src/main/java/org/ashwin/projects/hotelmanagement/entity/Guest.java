@@ -1,13 +1,13 @@
 package org.ashwin.projects.hotelmanagement.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.ashwin.projects.hotelmanagement.entity.enums.Gender;
 
 @Entity
-@Getter
-@Setter
+@Data
 public class Guest {
 
     @Id
