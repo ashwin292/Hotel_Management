@@ -3,7 +3,7 @@ package org.ashwin.projects.hotelmanagement.entity.enums;
 public enum BookingStatus {
     RESERVED,
     GUESTS_ADDED,
-    PAYMENT_REQUESTED,
+    PAYMENT,
     CONFIRMED,
     CANCELLED,
     EXPIRED,
